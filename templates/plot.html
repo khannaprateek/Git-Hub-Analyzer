@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="static/main.css">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+
+<body>
+ <nav class="navbar navbar-expand-sm bg-dark">
+          <ul class="navbar-nav" >
+            <li class="nav-item">
+             <a class="navbar-brand" href="#">GitHub Analyser</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('status')}}">Statistics Table</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{url_for('logout')}}" class='nav-link' style="color:red">Logout</a>
+            </li>
+          </ul>
+</nav>
+  <div id="myDiv"><!-- Plotly chart will be drawn inside this DIV --></div>
+  <script>
+    var u={{session['u']|tojson}}
+    var view=[]
+    {% for d in session['u']['view']%}
+        view.push({{d['uniques']}})
+    {% endfor %}
+var trace1 = {
+  x: u['name'],
+  y: view,
+  type: 'bar',
+  marker: {
+    color: 'rgb(142,124,195)'
+  }
+};
+var data = [trace1];
+
+var layout = {
+  title: 'Most Popular Repository',
+  font:{
+    family: 'Raleway, sans-serif'
+  },
+  showlegend: false,
+  xaxis: {
+      zeroline: true,
+      title:'Name of Repositories',
+    tickangle: -45
+  },
+//  {barmode: 'stack'},
+  yaxis: {
+      title:'No of visitors',
+    zeroline: true,
+    gridwidth: 2
+  },
+  bargap :0.05
+    
+};
+
+Plotly.newPlot('myDiv', data, layout);
+  </script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+{% extends 'layout.html' %}
+{% block content %}
+<body class='table-dark'>
+ <nav class="navbar navbar-expand-sm bg-dark">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+             <a class="navbar-brand" href="#">GitHub Analyser</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('plot')}}">Graph </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{url_for('logout')}}" class='nav-link' style='color:red'>Logout</a>
+            </li>
+          </ul>
+</nav>
+<div class='row'>
+    <div class='col-lg-2 col-md-4 col-sm-6 col-xs-12'>
+    <div class='table-dark'>
+        <div><img src="{{session['user']['avatar_url']}}" class="img-circle"></div>
+         <div class='align' style='text-align: center;'>Name : {{session['user']['name']}}<br>
+         Followers : {{session['user']['followers']}}<br>
+         Following : {{session['user']['following']}}<br>
+         Public Repositories : {{session['user']['public_repos']}}<br>
+         Private positories : {{session['user']['plan']['private_repos']}}<br>
+        </div>
+    </div>
+    </div>
+       <div class="col-md-10 col-sm-12">
+            <div class="table-responsive" >
+            <table class="table table-striped table-dark" style='border: 2px solid black'>
+               <thead>
+                  <tr>
+                     <th>No.</th>
+                     <th>Repo Name</th>
+                     <th>Clones</th>
+                     <th>Forks</th>
+                     <th>Unique Visitors</th>
+                     <th>Total Visitors</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {% for i in session['u']['no']%}
+                  <tr>
+                    <td>{{i+1}}</td>
+                    <td>{{session['u']['name'][i]}}</td>
+                    <td>{{session['u']['clones'][i]['count']}}</td>
+                    <td>{{session['u']['forks'][i]}}</td>
+                    <td>{{session['u']['view'][i]['uniques']}}</td>
+                    <td>{{session['u']['view'][i]['count']}}</td>
+                  </tr>
+                  {% endfor %}
+               </tbody>
+            </table>
+         </div>
+      </div>
+</div>
+</body>
+{% endblock %}
